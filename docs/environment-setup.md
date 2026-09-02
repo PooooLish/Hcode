@@ -94,7 +94,8 @@ python -B -m pytest -q tests --basetemp $testRoot
 
 - `pip check`：无损坏或缺失的依赖关系。
 - CLI 帮助和核心包导入：通过。
-- Windows/Python 3.11 完整活动测试集：`739 passed, 3 skipped`。
+- Windows/Python 3.11 完整活动测试集：`740 passed, 2 skipped`。
+- GitHub Actions：Ubuntu 与 Windows 的安装、依赖检查、CLI 和完整测试均通过。
 - DeepSeek 最小计费测试：返回预期文本并收到 `StreamEnd`；脱敏结果未进入仓库。
 
 这些结果是历史本地证据。任何发布或完成声明都应重新运行对应命令。

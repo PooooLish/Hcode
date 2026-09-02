@@ -69,7 +69,7 @@ python -m pip install "pytest>=9.0.3" "pytest-asyncio>=1.3.0" "pytest-timeout==2
 python -B -m pytest -q tests
 ```
 
-最近一次 Windows/Python 3.11 本地验证结果为 `739 passed, 3 skipped`。这组测试证明当前实现的回归状态，不等同于 Agent 任务成功率；能力评测方案见 [`docs/evaluation-plan.md`](docs/evaluation-plan.md)。
+最近一次 Windows/Python 3.11 本地验证结果为 `740 passed, 2 skipped`，GitHub Actions 的 Ubuntu 和 Windows 任务也已通过。这些测试证明当前实现的回归状态，不等同于 Agent 任务成功率；能力评测方案见 [`docs/evaluation-plan.md`](docs/evaluation-plan.md)。
 
 ## 文档
 
