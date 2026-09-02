@@ -1,0 +1,15 @@
+# Copy this file to .hcode/config.yaml and replace placeholder values.
+# Keep API keys in environment variables; never put them in this file.
+providers:
+  - name: openai-compatible
+    protocol: openai-compat
+    base_url: https://api.example.invalid
+    model: replace-with-model-name
+    context_window: 128000
+
+permission_mode: default
+
+sandbox:
+  enabled: false
+  auto_allow: false
+  network_enabled: false
