@@ -7,6 +7,7 @@
 ### Added
 
 - Public-repository documentation, example configuration, CI workflow, security policy, and Agent evaluation plan.
+- MIT license and package repository metadata.
 
 ## [0.2.0] - 2026-09-01
 

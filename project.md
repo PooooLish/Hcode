@@ -13,7 +13,7 @@ Develop Hcode as a terminal coding Agent with reviewable source, reproducible te
 - Keep source, tests, documentation, and generated state inside this project.
 - Never commit real credentials, local provider configuration, logs, caches, or generated runtime output.
 - Do not claim production isolation while the Windows sandbox backend is missing.
-- Do not publish imported source until ownership and redistribution rights are confirmed.
+- Publish and redistribute the project only under the user-selected MIT License.
 
 ## Acceptance Criteria
 
@@ -21,7 +21,7 @@ Develop Hcode as a terminal coding Agent with reviewable source, reproducible te
 - The repository contains accurate onboarding, contribution, security, changelog, evaluation, and CI documentation.
 - Local configuration and generated state remain ignored and absent from Git history.
 - The active Windows/Python 3.11 test suite passes after repository preparation.
-- Public push occurs only after the licensing gate is resolved.
+- A root MIT license and matching package metadata are present before public push.
 
 ## Decisions
 
@@ -30,7 +30,7 @@ Develop Hcode as a terminal coding Agent with reviewable source, reproducible te
 - Local configuration, credentials, logs, temporary files, caches, and generated outputs must remain untracked.
 - API credentials are loaded only from environment variables.
 - GitHub Actions use official GitHub actions pinned to immutable commit SHAs.
-- No open-source license will be selected until ownership and public redistribution rights are confirmed.
+- The user selected the MIT License on 2026-09-02; copyright is attributed to `PooooLish`.
 
 ## Progress
 
@@ -41,17 +41,16 @@ Develop Hcode as a terminal coding Agent with reviewable source, reproducible te
 - Prepared a dedicated Python 3.11 environment and dependency lock file.
 - Added code-flow, read-only analysis, environment, evaluation, contribution, security, and CI documentation.
 - Initialized an independent local Git repository and configured the GitHub remote.
+- Added the MIT License and matching public package metadata.
 
 ## Next Action
 
-1. Confirm ownership/publication rights and select a license.
-2. Push `main` to the public GitHub repository.
-3. Confirm the first GitHub Actions run on Windows and Linux.
-4. Begin the security-remediation and Agent-evaluation milestones documented in `SECURITY.md` and `docs/evaluation-plan.md`.
+1. Push `main` to the public GitHub repository.
+2. Confirm the first GitHub Actions run on Windows and Linux.
+3. Begin the security-remediation and Agent-evaluation milestones documented in `SECURITY.md` and `docs/evaluation-plan.md`.
 
 ## Blockers
 
-- The GitHub repository is public, but the imported source has no license or confirmed provenance statement. Publishing is intentionally paused until the user confirms the right to publish and chooses a license.
 - Windows currently has no OS-level sandbox backend.
 - Native Linux behavior and the GitHub Actions matrix remain unverified until CI runs.
 
@@ -65,4 +64,6 @@ Develop Hcode as a terminal coding Agent with reviewable source, reproducible te
 - Documentation gate after repository preparation: all local Markdown link targets exist; both YAML files parse; `config.example.yaml` passes Hcode's configuration validator.
 - Fresh dependency and CLI gate after all functional files: `pip check` and `python -B -m hcode --help` exited 0.
 - Fresh complete active suite after repository preparation: `739 passed, 3 skipped in 40.48s` with exit code 0 on Windows/Python 3.11.
-- GitHub Actions has not run because publishing is paused at the licensing gate.
+- GitHub Actions has not run yet because the initial public push is pending.
+- License gate resolved on 2026-09-02: root MIT text, README notice, and PEP 621 license metadata added.
+- Fresh post-license local gate: MIT text, package metadata, Markdown links, workflow YAML, and example configuration passed static validation; `pip check` and CLI help exited 0; the complete active suite passed `739 passed, 3 skipped in 40.26s` on Windows/Python 3.11.

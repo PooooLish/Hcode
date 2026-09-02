@@ -1,6 +1,7 @@
 # Hcode
 
 [![CI](https://github.com/PooooLish/Hcode/actions/workflows/ci.yml/badge.svg)](https://github.com/PooooLish/Hcode/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Hcode 是一个使用 Python 和 Textual 构建的终端编码 Agent。它可以读取与修改代码、执行命令、调用 MCP 工具，并通过权限模式、上下文压缩、会话恢复和子 Agent 协作完成仓库级开发任务。
 
@@ -99,4 +100,4 @@ scripts/               可重复执行的辅助脚本
 
 Hcode 能够执行命令和修改文件。首次使用时请保持 `default` 权限模式，并只在受版本控制、可恢复的测试仓库中运行。Windows 当前没有操作系统级沙箱实现，详细限制见 [SECURITY.md](SECURITY.md)。
 
-当前仓库尚未授予开源许可证。在代码来源、公开发布权和许可证选择确认前，不应复制、分发或将其作为开源依赖使用。
+项目采用 [MIT License](LICENSE)。

@@ -1,5 +1,9 @@
 # Open Source Assessment: Hcode
 
+## Current license status (2026-09-02)
+
+The user confirmed the right to publish Hcode and selected the MIT License. The repository now contains a root `LICENSE` file with copyright attributed to `PooooLish`. Statements below that describe the project as unlicensed are preserved as dated historical findings from before this decision.
+
 ## Historical rename assessment (preserved)
 
 ### Scope
