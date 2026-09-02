@@ -509,13 +509,34 @@ class TestAgentHookIntegration:
     """验证 pre_tool_use 拒绝会导致工具调用被跳过。"""
 
     @pytest.mark.asyncio
-    @pytest.mark.skipif(os.name == "nt", reason="rm 命令在 Windows 上不可用")
     async def test_pre_tool_use_reject_skips_tool(self):
         from hcode.agent import Agent, ToolResultEvent
         from hcode.client import LLMClient
         from hcode.conversation import ConversationManager
-        from hcode.tools import create_default_registry
-        from hcode.tools.base import StreamEnd, StreamEvent, TextDelta, ToolCallComplete
+        from hcode.tools import ToolRegistry
+        from hcode.tools.base import (
+            StreamEnd,
+            TextDelta,
+            Tool,
+            ToolCallComplete,
+            ToolResult,
+        )
+        from pydantic import BaseModel
+
+        executions: list[str] = []
+
+        class RecordParams(BaseModel):
+            value: str
+
+        class RecordingReadTool(Tool):
+            name = "RecordingRead"
+            description = "Record whether a tool call reached execution"
+            params_model = RecordParams
+            category = "read"
+
+            async def execute(self, params: RecordParams) -> ToolResult:
+                executions.append(params.value)
+                return ToolResult(output="executed")
 
         class MockClient(LLMClient):
             def __init__(self):
@@ -526,8 +547,8 @@ class TestAgentHookIntegration:
                 if self._call == 1:
                     yield ToolCallComplete(
                         tool_id="t1",
-                        tool_name="Bash",
-                        arguments={"command": "rm -rf /"},
+                        tool_name="RecordingRead",
+                        arguments={"value": "should-not-run"},
                     )
                     yield StreamEnd(stop_reason="tool_use", input_tokens=10, output_tokens=5)
                 else:
@@ -535,16 +556,17 @@ class TestAgentHookIntegration:
                     yield StreamEnd(stop_reason="end_turn", input_tokens=10, output_tokens=5)
 
         hook = Hook(
-            id="block-rm",
+            id="block-recording-tool",
             event="pre_tool_use",
-            action=Action(type="command", command="echo dangerous command blocked"),
-            condition=parse_condition('tool == "Bash" && args.command =~ /rm\\s+-rf/'),
+            action=Action(type="prompt", message="tool call blocked"),
+            condition=parse_condition('tool == "RecordingRead"'),
             reject=True,
         )
         engine = HookEngine([hook])
 
         client = MockClient()
-        registry = create_default_registry()
+        registry = ToolRegistry()
+        registry.register(RecordingReadTool())
         conv = ConversationManager()
         conv.add_user_message("delete everything")
 
@@ -564,3 +586,4 @@ class TestAgentHookIntegration:
         rejected = tool_results[0]
         assert rejected.is_error is True
         assert "Hook rejected" in rejected.output
+        assert executions == []

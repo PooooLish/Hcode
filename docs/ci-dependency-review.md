@@ -30,3 +30,20 @@
 - 更新 Action 前重新检查上游 release、许可证、advisory 和完整 SHA。
 - Python 依赖仍以 `uv.lock` 为解析基线，但当前 CI 使用 pip 安装；因此 CI 不能宣称完全锁定复现。
 - 回滚方式：删除 `.github/workflows/ci.yml`；不会影响 Hcode 运行时代码。
+
+## MCP 兼容性与安全整改（2026-09-02）
+
+首次 CI 使用原约束 `mcp>=1.12.0` 时解析到不兼容的 MCP 2.1.1，导致 1.x 的 `inputSchema` 和 `mimeType` 字段访问失败。Hcode 当前实现面向 MCP 1.x，因此项目约束改为 `mcp>=1.29.1,<2`，CI 显式安装 1.29.1，`uv.lock` 同步到相同版本。
+
+| 项目 | 证据 |
+| --- | --- |
+| 身份 | PyPI `mcp` 1.29.1；上游 `modelcontextprotocol/python-sdk`，tag `v1.29.1` |
+| 发布 | 2026-08-24；上游仓库活跃、未归档 |
+| 许可证 | MIT |
+| wheel | SHA-256 `b6310eeb59153300c4ab8b9aec4c52f4819a2d6a8e429eb43d908bed7c783648` |
+| 安全 | 上游六项已公布 advisory 均在 1.28.1 或更早版本完成修复；1.29.1 不在已公布受影响范围 |
+| 依赖图 | Python 3.11 下直接依赖名称集合与 1.27.0 相同；未新增传递依赖 |
+| 运行边界 | MCP 客户端可启动本地进程或连接远程服务；具体服务器仍需单独权限审查 |
+| 决策 | `approve-with-conditions`：限定 1.x，CI 固定 1.29.1；升级到 MCP 2.x 必须作为独立迁移 |
+
+回滚方式：恢复 `pyproject.toml` 与 `uv.lock` 的 MCP 条目；但由于 1.27.0 存在已公布高危问题，不应将其作为公开版本长期回滚目标。

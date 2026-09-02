@@ -9,6 +9,15 @@
 - Public-repository documentation, example configuration, CI workflow, security policy, and Agent evaluation plan.
 - MIT license and package repository metadata.
 
+### Fixed
+
+- Streamed tool execution now applies rejecting `pre_tool_use` hooks before the tool can run.
+- CI uses UTF-8 mode on Windows and constrains MCP to the reviewed 1.x API instead of resolving incompatible MCP 2.x.
+
+### Security
+
+- Upgraded the MCP SDK lock from vulnerable 1.27.0 to 1.29.1.
+
 ## [0.2.0] - 2026-09-01
 
 ### Added

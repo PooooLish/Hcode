@@ -920,6 +920,26 @@ class Agent:
                 elapsed=time.monotonic() - start,
             )
 
+        if self.hook_engine:
+            file_path = self._infer_file_path(tc.arguments)
+            hook_ctx = self._build_hook_context(
+                "pre_tool_use",
+                tool_name=tc.tool_name,
+                tool_args=tc.arguments,
+                file_path=file_path,
+            )
+            rejection = await self.hook_engine.run_pre_tool_hooks(hook_ctx)
+            if rejection is not None:
+                return _ToolExecResult(
+                    tool_id=tc.tool_id,
+                    tool_name=tc.tool_name,
+                    result=ToolResult(
+                        output=f"Hook rejected: {rejection.reason}",
+                        is_error=True,
+                    ),
+                    elapsed=time.monotonic() - start,
+                )
+
         if self.permission_checker:
             decision = self.permission_checker.check(tool, tc.arguments)
             if decision.effect == "deny":
